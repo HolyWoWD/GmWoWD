@@ -1420,6 +1420,11 @@ void Aura::HandleAddModifier(bool apply, bool Real)
 
     if(m_modifier.m_miscvalue >= MAX_SPELLMOD)
         return;
+		
+    if (m_spellProto->Id == 11129 && !apply)
+    {
+        m_target->RemoveAurasDueToSpell(28682);
+    }
 
     if (apply)
     {

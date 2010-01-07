@@ -584,8 +584,9 @@ bool IsPositiveEffect(uint32 spellId, uint32 effIndex)
                     return false;
                 case SPELL_AURA_PERIODIC_DAMAGE:            // used in positive spells also.
                     // part of negative spell if casted at self (prevent cancel)
-                    if (spellproto->EffectImplicitTargetA[effIndex] == TARGET_SELF ||
-                        spellproto->EffectImplicitTargetA[effIndex] == TARGET_SELF2)
+                    if ((spellproto->EffectImplicitTargetA[effIndex] == TARGET_SELF ||
+                        spellproto->EffectImplicitTargetA[effIndex] == TARGET_SELF2) &&
+						spellproto->SpellFamilyName == SPELLFAMILY_GENERIC)
                         return false;
                     break;
                 case SPELL_AURA_MOD_DECREASE_SPEED:         // used in positive spells also
@@ -1558,6 +1559,10 @@ bool SpellMgr::IsNoStackSpellDueToSpell(uint32 spellId_1, uint32 spellId_2) cons
                 // Dispersion
                 if ((spellInfo_1->Id == 47585 && spellInfo_2->Id == 60069) ||
                     (spellInfo_2->Id == 47585 && spellInfo_1->Id == 60069))
+                    return false;
+				// Power Word: Shield and Divine Aegis
+                if ((spellInfo_1->SpellIconID == 566 && spellInfo_2->SpellIconID == 2820) ||
+                    (spellInfo_2->SpellIconID == 566 && spellInfo_1->SpellIconID == 2820))
                     return false;
             }
             break;
